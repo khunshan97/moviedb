@@ -1,25 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
-  <title>{% block title %}Movie Database{% endblock %}</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-</head>
-<body>
-<nav class="navbar navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">
-    <img src="https://flixanity.app/templates/flixanity/assets/images/logo_old_flix.png" width="125" height="42" class="d-inline-block align-top" alt="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  </a>
-</nav>
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+  <title>{% block title %}Movie Database{% endblock %}</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+
+
+</head>
+
+<body>
+
+  <div class="row">
+    <div class="col-12 px-0">
+      <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">
+          <img src="https://flixanity.app/templates/flixanity/assets/images/logo_old_flix.png" width="125" height="42"
+            class="d-inline-block align-top" alt="">
+        </a>
+        {#    <div class="navbar-collapse" id="navbarText">#}
+        <span class="navbar-text">
+          {% if user.is_authenticated %}
+          Hi {{ user.username }}!
+          <p><a href="{% url 'logout' %}">Log Out</a></p>
+          {% else %}
+          <p>You are not logged in</p>
+          <a href="{% url 'login' %}">Log In</a>
+          {% endif %}
+        </span>
+        {#  </div>#}
+      </nav>
+    </div>
+  </div>
+  <div class="container-fluid">
+
+    <main>
+      {% block content %}
+      {% endblock %}
+    </main>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+  {#  <script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>#}
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js">
+  </script>
+  <script>
+    $(document).ready(function () {
+      $('#table_id').DataTable();
+    });
+    $(document).ready(function () {
+      $('#user_table').DataTable();
+    });
+  </script>
+
 </body>
+
 </html>

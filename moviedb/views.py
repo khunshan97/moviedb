@@ -19,7 +19,8 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 def index(request):
-    movies = Movie.objects.all()
+    # movies = Movie.objects.all()
+    movies = Movie.objects.filter(status=True)
     context = {'movies': movies}
 
     if request.user.is_superuser:
@@ -128,11 +129,17 @@ def userEdit(request, pk):
 
 def movie_delete(request, pk):
     movie = Movie.objects.get(id=pk)
+    if movie.status:
+        movie.status = False
+    else:
+        movie.status = True
+    movie.save()
+    return redirect('/')
 
-    if request.method == 'POST':
-        movie.delete()
-        return redirect('/')
-    return render(request, 'movie_delete.html')
+    # if request.method == 'POST':
+    #     movie.delete()
+    #     return redirect('/')
+    # return render(request, 'movie_delete.html')
 
 
 def user_delete(request, pk):

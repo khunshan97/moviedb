@@ -1,81 +1,163 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 {% block content %}
 <!-- <div class="container-fluid"> -->
 <div class="container my-2">
     <div class="row">
         <div class="col-12">
             <div class="row py-3">
-                <div class="col-12">
+                <!-- <div class="col-12">
                     <h3>Movie List</h3>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                         Add Movie +
                     </button>
+                </div> -->
+                <div class="card w-100">
+                    <div class="card-header display-4">
+                        Movie List
+                        <button type="button" class="btn btn-primary float-right" data-toggle="modal"
+                            data-target="#exampleModal">
+                            Add Movie +
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="table" id="table_id">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Status</th>
+                                    {#                        <th scope="col">Genre</th>#}
+                                    {#                        <th scope="col">Short Desc</th>#}
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for movie in movies %}
+                                <tr>
+
+                                    <td>{{ movie.name }}</td>
+                                    <td>{{ movie.status }}</td>
+                                    {#                        <td>{{ movie.genre }}</td>#}
+                                    {#                        <td>{{ movie.short_des }}</td>#}
+                                    <td>
+                                        <a href="{%url 'moviedetail' movie.id %}">View</a>
+                                        <a href="{%url 'movieedit' movie.id %}">Edit</a>
+                                        <a href="{%url 'moviedelete' movie.id %}">Toggle</a>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- <div class="card-footer text-muted">
+                        2 days ago
+                    </div> -->
                 </div>
             </div>
 
-            <table class="table" id="table_id">
-                <thead>
-                    <tr>
-
-                        <th scope="col">Name</th>
-                        <th scope="col">Status</th>
-{#                        <th scope="col">Genre</th>#}
-{#                        <th scope="col">Short Desc</th>#}
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for movie in movies %}
-                    <tr>
-
-                        <td>{{ movie.name }}</td>
-                        <td>{{ movie.status }}</td>
-{#                        <td>{{ movie.genre }}</td>#}
-{#                        <td>{{ movie.short_des }}</td>#}
-                        <td>
-                            <a href="{%url 'moviedetail' movie.id %}">View</a>
-                            <a href="{%url 'movieedit' movie.id %}">Edit</a>
-                            <a href="{%url 'moviedelete' movie.id %}">Delete</a>
-                        </td>
-
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {#            <table class="table" id="table_id">#}
+            {#                <thead>#}
+            {#                    <tr>#}
+            {##}
+            {#                        <th scope="col">Name</th>#}
+            {#                        <th scope="col">Status</th>#}
+            {#                        <th scope="col">Genre</th>#}
+            {#                        <th scope="col">Short Desc</th>#}
+            {#                        <th scope="col">Actions</th>#}
+            {#                    </tr>#}
+            {#                </thead>#}
+            {#                <tbody>#}
+            {#                    {% for movie in movies %}#}
+            {#                    <tr>#}
+            {##}
+            {#                        <td>{{ movie.name }}</td>#}
+            {#                        <td>{{ movie.status }}</td>#}
+            {#                        <td>{{ movie.genre }}</td>#}
+            {#                        <td>{{ movie.short_des }}</td>#}
+            {#                        <td>#}
+            {#                            <a href="{%url 'moviedetail' movie.id %}">View</a>#}
+            {#                            <a href="{%url 'movieedit' movie.id %}">Edit</a>#}
+            {#                            <a href="{%url 'moviedelete' movie.id %}">Delete</a>#}
+            {#                        </td>#}
+            {##}
+            {#                    </tr>#}
+            {#                    {% endfor %}#}
+            {#                </tbody>#}
+            {#            </table>#}
         </div>
 
-        <div class="col-12 mt-3">
-            <h3>User List</h3>
-            <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#userModal">
-                Add User +
-            </button>
-            <table class="table" id="user_table">
-                <thead>
-                    <tr>
+        {#        <div class="col-12 mt-3">#}
+        {#            <h3>User List</h3>#}
+        {#            <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#userModal">#}
+        {#                Add User +#}
+        {#            </button>#}
+        {#            <table class="table" id="user_table">#}
+        {#                <thead>#}
+        {#                    <tr>#}
+        {##}
+        {#                        <th scope="col">Username</th>#}
+        {#                        <th scope="col">Name</th>#}
+        {#                        <th scope="col">E-Mail</th>#}
+        {#                        <th scope="col">Actions</th>#}
+        {#                    </tr>#}
+        {#                </thead>#}
+        {#                <tbody>#}
+        {#                    {% for user in users %}#}
+        {#                    <tr>#}
+        {##}
+        {#                        <td>{{ user.username }}</td>#}
+        {#                        <td>{{ user.first_name }} {{ user.last_name }}</td>#}
+        {#                        <td>{{ user.email }}</td>#}
+        {#                        <td>#}
+        {#                            <a href="{%url 'moviedetail' movie.id %}">View</a>#}
+        {#                            <a href="{%url 'useredit' user.id %}">Edit</a>#}
+        {#                            <a href="{%url 'userdelete' user.id %}">Delete</a>#}
+        {#                        </td>#}
+        {##}
+        {#                    </tr>#}
+        {#                    {% endfor %}#}
+        {#                </tbody>#}
+        {#            </table>#}
+        {#        </div>#}
+        <div class="card w-100">
+            <div class="card-header display-4">
+                User List
+                <button type="button" class="btn btn-primary my-2 float-right" data-toggle="modal"
+                    data-target="#userModal">
+                    Add User +
+                </button>
+            </div>
+            <div class="card-body">
+                <table class="table" id="user_table">
+                    <thead>
+                        <tr>
 
-                        <th scope="col">Username</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">E-Mail</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for user in users %}
-                    <tr>
+                            <th scope="col">Username</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">E-Mail</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
 
-                        <td>{{ user.username }}</td>
-                        <td>{{ user.first_name }} {{ user.last_name }}</td>
-                        <td>{{ user.email }}</td>
-                        <td>
-                            {#                            <a href="{%url 'moviedetail' movie.id %}">View</a>#}
-                            <a href="{%url 'useredit' user.id %}">Edit</a>
-                            <a href="{%url 'userdelete' user.id %}">Delete</a>
-                        </td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.first_name }} {{ user.last_name }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {#                            <a href="{%url 'moviedetail' movie.id %}">View</a>#}
+                                <a href="{%url 'useredit' user.id %}">Edit</a>
+                                <a href="{%url 'userdelete' user.id %}">Delete</a>
+                            </td>
 
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_filters %}
 
 {% block content %}
 <div class="container-fluid">
@@ -15,15 +16,12 @@
   </div>
   <div class="row">
     <div class="col-3">
-
       <h5>Category:</h5>
       {{ movie.genre }}
-    </div>
-    <div class="col-3">
       <h5>Summary:</h5>
       {{ movie.long_des }}
     </div>
-    <div class="col-6">
+    <div class="col-4">
       <h3>Reviews</h3>
       {% if reviews %}
       <h5>Average: {{ avg_rating.rating__avg}}</h5>
@@ -35,13 +33,15 @@
       {% else %}
       <p>No reviews are available.</p>
       {% endif %}
+    </div>
+    <div class="col-5">
       {% if already_reviewed %}
       <h4>Edit Review</h4>
       {% else %}
       <h4>Write Review</h4>
       {% endif %}
       <form action="" method="POST">
-        {% csrf_token %} {{form}}
+        {% csrf_token %} {{form | crispy}}
         <input type="submit" name="Submit" />
       </form>
     </div>

@@ -37,7 +37,12 @@
                                 <tr>
 
                                     <td>{{ movie.name }}</td>
-                                    <td>{{ movie.status }}</td>
+                                    <td>{% if movie.status %}
+                                        Active
+                                        {% else %}
+                                        Hidden
+                                        {% endif %}
+                                    </td>
                                     {#                        <td>{{ movie.genre }}</td>#}
                                     {#                        <td>{{ movie.short_des }}</td>#}
                                     <td>
@@ -136,6 +141,7 @@
 
                             <th scope="col">Username</th>
                             <th scope="col">Name</th>
+                            <th scope="col">Role</th>
                             <th scope="col">E-Mail</th>
                             <th scope="col">Actions</th>
                         </tr>
@@ -146,6 +152,13 @@
 
                             <td>{{ user.username }}</td>
                             <td>{{ user.first_name }} {{ user.last_name }}</td>
+                            <td>{% if user.is_superuser %}
+                                Admin
+                                {% elif user.is_manager %}
+                                Manager
+                                {% else %}
+                                User
+                                {% endif %}</td>
                             <td>{{ user.email }}</td>
                             <td>
                                 {#                            <a href="{%url 'moviedetail' movie.id %}">View</a>#}
@@ -176,7 +189,7 @@
             <div class="modal-body">
                 <form action="" method="POST">
                     {% csrf_token %}
-                    {{form.as_p}}
+                    {{form | crispy}}
                     {#                    <input type="submit" class="btn btn-primary">#}
                     <div class="modal-footer">
                         <input type="submit" class="btn btn-primary">
@@ -237,10 +250,10 @@
                 <form method="post">
                     {% csrf_token %}
                     <table>
-                        {{ user_form.as_table }}
+                        {{ user_form | crispy }}
                         <tr>
                             <td></td>
-                            <td><input type="submit" name="submit" value="Register" /></td>
+                            <td><input class="btn btn-primary" type="submit" name="submit" value="Add" /></td>
                         </tr>
                     </table>
                 </form>

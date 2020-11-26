@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
-from .forms import MovieForm, UserForm, ReviewForm
+from .forms import MovieForm, UserForm, ReviewForm, RegisterForm
 from django.db.models import Avg, Max, Min, Sum
 from django.http import HttpResponseRedirect
 from django.contrib import messages
@@ -10,9 +10,10 @@ from django.views import generic
 
 # Create your views here.
 from moviedb.models import Movie, Review
+from users.models import NewUser as User
 from django.contrib.auth import get_user_model
 
-User = get_user_model()
+# User = get_user_model()
 
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
@@ -55,16 +56,16 @@ def admin(request):
     #     if user_form.is_valid():
     #         user_form.save()
     #         return redirect('/')
-
+    f = RegisterForm()
     if request.method == 'POST':
-        f = UserCreationForm(request.POST)
+        f = RegisterForm(request.POST)
         if f.is_valid():
             f.save()
             messages.success(request, 'Account created successfully')
             return redirect('/')
 
     else:
-        f = UserCreationForm()
+        f = RegisterForm()
 
     # context = {'form': form, 'movies': movies, 'users': users,'user_form': user_form}
     context = {'form': form, 'movies': movies, 'users': users, 'user_form': f}
@@ -148,8 +149,19 @@ def user_delete(request, pk):
     if request.method == 'POST':
         user.delete()
         return redirect('/')
-    return render(request, 'user_delete.html')
+    context = {'user': user}
+    return render(request, 'user_delete.html', context)
 
+
+def user_create(request):
+    form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    context = {'form': form}
+    return render(request, 'create_user.html', context)
 
 # def admin(request):
 #     form = MovieForm()
@@ -168,7 +180,7 @@ class MovieListView(ListView):
     template_name = 'movielist.html'
 
 
-class SignUpView(generic.CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy('login')
-    template_name = 'create_user.html'
+# class SignUpView(generic.CreateView):
+#     form_class = UserCreationForm
+#     success_url = reverse_lazy('login')
+#     template_name = 'create_user.html'

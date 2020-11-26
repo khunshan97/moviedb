@@ -18,8 +18,8 @@ from django.urls import path, include
 from django.views.generic.base import TemplateView  # new
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('auth/', include('django.contrib.auth.urls')),
+    path("admin/", admin.site.urls),
+    path("auth/", include("django.contrib.auth.urls")),
     # path('', TemplateView.as_view(template_name='moviedb/index.html'), name='home')
-    path('', include('moviedb.urls'))
+    path("", include("moviedb.urls")),
 ]

@@ -8,12 +8,12 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('moviedb', '0004_movie_genre'),
+        ("moviedb", "0004_movie_genre"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='review',
-            unique_together={('user', 'movie')},
+            name="review",
+            unique_together={("user", "movie")},
         ),
     ]

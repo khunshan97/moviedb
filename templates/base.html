@@ -22,7 +22,6 @@
           <img src="https://flixanity.app/templates/flixanity/assets/images/logo_old_flix.png" width="125" height="42"
             class="d-inline-block align-top" alt="">
         </a>
-        {#    <div class="navbar-collapse" id="navbarText">#}
         <span class="navbar-text">
           {% if user.is_authenticated %}
           Hi {{ user.username }}!
@@ -31,7 +30,6 @@
           <a href="{% url 'login' %}">Log In</a>
           {% endif %}
         </span>
-        {#  </div>#}
       </nav>
     </div>
   </div>

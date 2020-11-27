@@ -4,11 +4,6 @@ from .models import Movie, Review
 from users.models import NewUser as User
 
 
-# from django.contrib.auth import get_user_model
-#
-# User = get_user_model()
-
-
 class MovieForm(ModelForm):
     class Meta:
         model = Movie
@@ -39,7 +34,6 @@ class UserForm(ModelForm):
             "is_manager",
             "is_superuser",
         ]
-        # fields = '__all__'
 
 
 class RegisterForm(UserCreationForm):
@@ -54,4 +48,3 @@ class RegisterForm(UserCreationForm):
             "password2",
             "is_manager",
         ]
-        # fields = "__all__"

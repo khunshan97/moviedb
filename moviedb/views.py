@@ -1,26 +1,14 @@
+from django.contrib import messages
+from django.db.models import Avg
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
-from .forms import MovieForm, UserForm, ReviewForm, RegisterForm
-from django.db.models import Avg, Max, Min, Sum
-from django.http import HttpResponseRedirect
-from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
-from django.views import generic
-
-# Create your views here.
 from moviedb.models import Movie, Review
 from users.models import NewUser as User
-from django.contrib.auth import get_user_model
-
-# User = get_user_model()
-
-from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from .forms import MovieForm, UserForm, ReviewForm, RegisterForm
 
 
 def index(request):
-    # movies = Movie.objects.all()
     movies = Movie.objects.filter(status=True)
     context = {"movies": movies}
 
@@ -50,12 +38,6 @@ def admin(request):
             return redirect("/")
 
     user_form = UserForm()
-
-    # if request.method == 'POST':
-    #     user_form = UserForm(request.POST)
-    #     if user_form.is_valid():
-    #         user_form.save()
-    #         return redirect('/')
     f = RegisterForm()
     if request.method == "POST":
         f = RegisterForm(request.POST)
@@ -67,7 +49,6 @@ def admin(request):
     else:
         f = RegisterForm()
 
-    # context = {'form': form, 'movies': movies, 'users': users,'user_form': user_form}
     context = {"form": form, "movies": movies, "users": users, "user_form": f}
 
     return render(request, "admin.html", context)
@@ -97,7 +78,6 @@ def movieDetail(request, pk):
         form = ReviewForm(request.POST)
         if form.is_valid():
             form.save()
-            # return redirect()
 
     context = {
         "movie": movie,
@@ -144,11 +124,6 @@ def movie_delete(request, pk):
     movie.save()
     return redirect("/")
 
-    # if request.method == 'POST':
-    #     movie.delete()
-    #     return redirect('/')
-    # return render(request, 'movie_delete.html')
-
 
 def user_delete(request, pk):
     user = User.objects.get(id=pk)
@@ -171,24 +146,6 @@ def user_create(request):
     return render(request, "create_user.html", context)
 
 
-# def admin(request):
-#     form = MovieForm()
-#
-#     if request.method == 'POST':
-#         form = MovieForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#
-#     context = {'form': form}
-#     return render(request, 'index.html', context)
-
-
 class MovieListView(ListView):
     model = Movie
     template_name = "movielist.html"
-
-
-# class SignUpView(generic.CreateView):
-#     form_class = UserCreationForm
-#     success_url = reverse_lazy('login')
-#     template_name = 'create_user.html'

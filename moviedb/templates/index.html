@@ -4,12 +4,6 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{#{% if user.is_authenticated %}#}
-{#  Hellooooo! {{ user.username }}!#}
-{#{% else %}#}
-{#  <p>You are not logged in</p>#}
-{#  <a href="{% url 'login' %}">Log In</a>#}
-{#{% endif %}#}
 {% if request.user.is_superuser%}
 
 {% elif user.is_authenticated %}
@@ -50,8 +44,6 @@
                         </div>
                         <div class="modal-footer">
                             <p class="mr-5">Category: {{movie.genre}}</p>
-                            <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
                         </div>
                     </div>
                 </div>
@@ -69,7 +61,6 @@
 {% endif %}
 {% else %}
 {% include 'logged_out.html' %}
-{#<p>Login first.</p>#}
 {% endif %}
 
 
